@@ -66,3 +66,10 @@ class Mediatheque:
 
     def __str__(self):
         return f"Médiathèque {self.nom} ({len(self._documents)} documents, {len(self._adherents)} adhérents)"
+    def obtenir_document(self, code):
+        """Retourne le document correspondant au code (accès public, sûr)."""
+        return self._get_document(code)
+
+    def tous_les_documents(self):
+        """Retourne la liste de tous les documents (disponibles ou non)."""
+        return list(self._documents.values())
