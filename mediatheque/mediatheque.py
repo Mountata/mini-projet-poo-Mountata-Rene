@@ -46,7 +46,12 @@ class Mediatheque:
         document = self._get_document(code)
         adherent = self._get_adherent(numero)
 
-        adherent.rendre(document)
+        try:
+            adherent.rendre(document)
+        except ValueError:
+            raise MediathequeError(
+                f"L'adhérent {numero} n'a pas emprunté le document {code}."
+            )
         document.disponible = True
         return document
 
@@ -64,8 +69,6 @@ class Mediatheque:
         adherent = self._get_adherent(numero)
         return adherent.emprunts_en_cours()
 
-    def __str__(self):
-        return f"Médiathèque {self.nom} ({len(self._documents)} documents, {len(self._adherents)} adhérents)"
     def obtenir_document(self, code):
         """Retourne le document correspondant au code (accès public, sûr)."""
         return self._get_document(code)
@@ -73,3 +76,6 @@ class Mediatheque:
     def tous_les_documents(self):
         """Retourne la liste de tous les documents (disponibles ou non)."""
         return list(self._documents.values())
+
+    def __str__(self):
+        return f"Médiathèque {self.nom} ({len(self._documents)} documents, {len(self._adherents)} adhérents)"
